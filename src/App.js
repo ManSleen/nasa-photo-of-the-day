@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
+import NavBar from "./components/NavBar";
+import PhotoOfTheDay from "./components/PhotoOfTheDay";
 import axios from "axios";
 
 import "./App.css";
 
 function App() {
   const [imageOfTheDayURL, setImageOfTheDayURL] = useState("");
+  // const [] = useState;
 
   useEffect(() => {
     axios
@@ -22,7 +25,8 @@ function App() {
 
   return (
     <div className="App">
-      <p>{imageOfTheDayURL}</p>
+      <NavBar />
+      <PhotoOfTheDay image={imageOfTheDayURL} />
     </div>
   );
 }
