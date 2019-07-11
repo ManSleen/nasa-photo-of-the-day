@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -17,6 +17,11 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker
+} from "@material-ui/pickers";
 
 const drawerWidth = 240;
 
@@ -79,7 +84,12 @@ const useStyles = makeStyles(theme => ({
 export default function PersistentDrawerLeft() {
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  function handleDateChange(date) {
+    setSelectedDate(date);
+  }
 
   function handleDrawerOpen() {
     setOpen(true);
@@ -133,7 +143,7 @@ export default function PersistentDrawerLeft() {
         </div>
         <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+          {["Today's Image", "NASA APIs"].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
@@ -141,18 +151,22 @@ export default function PersistentDrawerLeft() {
               <ListItemText primary={text} />
             </ListItem>
           ))}
+          <ListItem button key="Find Image By Date">
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <KeyboardDatePicker
+                margin="normal"
+                id="mui-pickers-date"
+                label="Date picker"
+                value={selectedDate}
+                onChange={handleDateChange}
+                KeyboardButtonProps={{
+                  "aria-label": "change date"
+                }}
+              />
+            </MuiPickersUtilsProvider>
+          </ListItem>
         </List>
         <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
       </Drawer>
       <main
         className={clsx(classes.content, {
