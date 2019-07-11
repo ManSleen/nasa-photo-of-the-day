@@ -11,11 +11,16 @@ function App() {
   const [imageOfTheDayURL, setImageOfTheDayURL] = useState("");
   const [imageOfTheDayDescription, setImageOfTheDayDescription] = useState("");
   const [imageOfTheDayTitle, setImageOfTheDayTitle] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
+
+  const selectDate = date => {
+    setSelectedDate(date);
+  };
 
   useEffect(() => {
     axios
       .get(
-        "https://api.nasa.gov/planetary/apod?api_key=Cvb4YpR38HIb85rJofCrCZuvofN5coBIpdSBaFOe"
+        `https://api.nasa.gov/planetary/apod?api_key=Cvb4YpR38HIb85rJofCrCZuvofN5coBIpdSBaFOe&date=${selectedDate}`
       )
       .then(res => {
         console.log(res.data);
@@ -26,11 +31,11 @@ function App() {
       .catch(err => {
         console.log(err);
       });
-  }, []);
+  }, [selectedDate]);
 
   return (
     <div className="App">
-      <NavBar />
+      <NavBar selectDate={selectDate} />
       <PhotoTitle title={imageOfTheDayTitle} />
       <PhotoDescription description={imageOfTheDayDescription} />
       <PhotoOfTheDay image={imageOfTheDayURL} />

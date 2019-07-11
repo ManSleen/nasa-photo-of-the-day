@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -81,15 +81,16 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function PersistentDrawerLeft() {
+export default function PersistentDrawerLeft({ selectDate }) {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  function handleDateChange(date) {
-    setSelectedDate(date);
-  }
+  // function handleDateChange() {
+  //   setSelectedDate(date.toISOString().split("T")[0]);
+  //   selectDate(selectedDate);
+  // }
 
   function handleDrawerOpen() {
     setOpen(true);
@@ -98,6 +99,11 @@ export default function PersistentDrawerLeft() {
   function handleDrawerClose() {
     setOpen(false);
   }
+
+  useEffect(() => {
+    console.log(selectedDate.toISOString().split("T")[0]);
+    selectDate(selectedDate.toISOString().split("T")[0]);
+  }, [selectedDate]);
 
   return (
     <div className={classes.root}>
@@ -158,7 +164,7 @@ export default function PersistentDrawerLeft() {
                 id="mui-pickers-date"
                 label="Date picker"
                 value={selectedDate}
-                onChange={handleDateChange}
+                onChange={setSelectedDate}
                 KeyboardButtonProps={{
                   "aria-label": "change date"
                 }}
