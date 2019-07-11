@@ -3,15 +3,32 @@ import NavBar from "./components/NavBar";
 import PhotoOfTheDay from "./components/PhotoOfTheDay";
 import PhotoDescription from "./components/PhotoDescription";
 import PhotoTitle from "./components/PhotoTitle";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+import Container from "@material-ui/core/Container";
+import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 
 import "./App.css";
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    flexGrow: 1
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: "center",
+    color: theme.palette.text.secondary
+  }
+}));
 
 function App() {
   const [imageOfTheDayURL, setImageOfTheDayURL] = useState("");
   const [imageOfTheDayDescription, setImageOfTheDayDescription] = useState("");
   const [imageOfTheDayTitle, setImageOfTheDayTitle] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
+
+  const classes = useStyles();
 
   const selectDate = date => {
     setSelectedDate(date);
@@ -35,10 +52,21 @@ function App() {
 
   return (
     <div className="App">
-      <NavBar selectDate={selectDate} />
-      <PhotoTitle title={imageOfTheDayTitle} />
-      <PhotoDescription description={imageOfTheDayDescription} />
-      <PhotoOfTheDay image={imageOfTheDayURL} />
+      <div className="app-container">
+        <Container maxWidth="xl">
+          <Grid style={{ paddingTop: 100 }} container spacing={3}>
+            <Grid item xs={4}>
+              <Paper className={classes.paper}>
+                <PhotoTitle title={imageOfTheDayTitle} />
+                <PhotoDescription description={imageOfTheDayDescription} />
+              </Paper>
+            </Grid>
+
+            <PhotoOfTheDay image={imageOfTheDayURL} />
+          </Grid>
+          <NavBar selectDate={selectDate} />
+        </Container>
+      </div>
     </div>
   );
 }

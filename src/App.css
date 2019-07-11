@@ -62,10 +62,15 @@
 
 a {
   text-decoration: none;
-  color: white;
+  color: rgb(24, 24, 24);
 }
 
 a:hover {
   cursor: pointer;
   font-weight: bold;
+}
+
+.app-container {
+  margin: 0 auto;
+  width: 90vw;
 }

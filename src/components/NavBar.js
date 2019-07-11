@@ -16,7 +16,9 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
+import Public from "@material-ui/icons/Public";
+import DateRange from "@material-ui/icons/DateRange";
+import Assignment from "@material-ui/icons/Assignment";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
@@ -149,20 +151,30 @@ export default function PersistentDrawerLeft({ selectDate }) {
         </div>
         <Divider />
         <List>
-          {["Today's Image", "NASA APIs"].map((text, index) => (
-            <ListItem button key={text}>
+          <a target="_blank" href="https://nasa-apod-demo.netlify.com/">
+            <ListItem button key="Today's Image">
+              {" "}
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <DateRange />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              Today's Image
             </ListItem>
-          ))}
+          </a>
+          <a target="_blank" href="https://api.nasa.gov/index.html">
+            <ListItem button key="NASA APIs">
+              <ListItemIcon>
+                <Public />
+              </ListItemIcon>
+              NASA APIs
+            </ListItem>
+          </a>
+
           <ListItem button key="Find Image By Date">
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <KeyboardDatePicker
                 margin="normal"
                 id="mui-pickers-date"
-                label="Date picker"
+                label="Past APODs"
                 value={selectedDate}
                 onChange={setSelectedDate}
                 KeyboardButtonProps={{
